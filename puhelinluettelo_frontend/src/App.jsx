@@ -26,7 +26,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    
+
     const existingPerson = persons.find(person => person.name === newName)
 
     if (existingPerson) {
@@ -43,11 +43,19 @@ const App = () => {
             })
           })
           .catch(error => {
-            setNotificationMessage({
-              message: `Information of ${existingPerson.name} has already been removed from the server`,
-              isError: true
-            })
-            setPersons(persons.filter(person => person.id !== existingPerson.id))
+            // check if validation error
+            if (error.response.data.name === 'ValidationError') {
+              setNotificationMessage({
+                message: `Validation failed: ${error.response.data.message}`,
+                isError: true
+              })
+            } else {
+              setNotificationMessage({
+                message: `Information of ${existingPerson.name} has already been removed from the server`,
+                isError: true
+              })
+              setPersons(persons.filter(person => person.id !== existingPerson.id))
+            }
           })
           .finally(() => {
             setTimeout(() => {
@@ -72,14 +80,14 @@ const App = () => {
         })
         .catch(error => {
           setNotificationMessage({
-            message: `Could not add ${newName}`,
+            message: `Could not add ${newName}. Error: ${error.response.data.message}`,
             isError: true
           })
         })
         .finally(() => {
           setTimeout(() => {
             setNotificationMessage({ message: null, isError: false })
-          }, 3000)
+          }, 5000)
         })
     }
     setNewName('')
