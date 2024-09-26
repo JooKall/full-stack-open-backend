@@ -1,4 +1,4 @@
-POST https://full-stack-open-phonebook-5q0g.onrender.com/api/persons
+POST https://full-stack-open-backend-yy1n.onrender.com/
 Content-Type: application/json
 
 {   
