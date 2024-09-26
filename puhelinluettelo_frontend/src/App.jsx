@@ -80,7 +80,7 @@ const App = () => {
         })
         .catch(error => {
           setNotificationMessage({
-            message: `Could not add ${newName}. Error: ${error.response.data.message}`,
+            message: `Could not add ${newName}. Error: ${error.response.data.message || error.response.data.error}`,
             isError: true
           })
         })
